@@ -16,6 +16,8 @@ fuction MakeBackup($source,$destination){
     #Known issue: Does not support CPU's with more than 64 logical processors (Anything with more than 32 cores and hyperthreading)
     $cputhreads = (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors
 
+    #Make Backupfolder in destination folder
+    New-Item -Path $destination -Name "Backup" -ItemType Directory
     #Execute backup using robocopy
     robocopy $source "$destination/Backup" *.* /e /zb /copyall /dcopy:DATE /secfix /timfix /r:10 /w:10 /eta /log:$destination/BackupLog.log /mt:$cputhreads
 }
